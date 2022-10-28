@@ -5,7 +5,7 @@ function Login() {
     const [password, setPassword] = useState('joe')
 
     async function handleLogin() {
-        await fetch('/login', {
+        const resp = await fetch('/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -15,7 +15,13 @@ function Login() {
                 password,
             })
         })
-        alert('Successful login!')
+        const msg = await resp.text()
+        if ( msg === 'ok') {
+            alert('Successful login!')
+        } else if ( msg == 'Wrong username or password') {
+            alert('Unsuccessful login!😕')
+        }
+        
     }
 
     return <>

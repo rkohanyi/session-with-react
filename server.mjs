@@ -1,5 +1,10 @@
 import express from 'express'
 import session from 'express-session'
+import path from 'path'
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 var app = express()
 
@@ -9,9 +14,16 @@ app.use(express.json())
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
+  saveUninitialized: false,
+  // for local servers comment out:
+  // cookie: { secure: true }
 }))
+app.use(express.static(path.join(__dirname, "build")));
+console.log(path.join(__dirname, "build"))
+
+app.get('/', (req, res) => { 
+
+})
 
 app.get('/no-need-for-login', (req, res) => {
     res.send('<h1>Everyone can see this</h1>')
@@ -19,18 +31,20 @@ app.get('/no-need-for-login', (req, res) => {
 
 app.get('/login-needed', (req, res) => {
     if (!req.session.username) {
-        res.send(401)
+        res.status(401).send('Login needed')
+    } else {
+        res.send(`<h1>Only logged in user (${req.session.username}) can see this</h1>`)
     }
-    res.send(`<h1>Only logged in user (${username}) can see this</h1>`)
 })
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body
     if (username === 'joe' && password === 'joe') {
         req.session.username = username
-        res.send(200)
+        console.log(req.session)
+        res.status(200).send('ok')
     } else {
-        res.send(401)
+        res.status(401).send('Wrong username or password')
     }
 })
 
