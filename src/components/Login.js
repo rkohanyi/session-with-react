@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-function Login() {
+export default function Login() {
     const [username, setUsername] = useState('joe')
     const [password, setPassword] = useState('joe')
 
@@ -19,7 +19,26 @@ function Login() {
         if ( msg === 'ok') {
             alert('Successful login!')
         } else if ( msg == 'Wrong username or password') {
-            alert('Unsuccessful login!😕')
+            alert('Unsuccessful login! 😕')
+        }
+        
+    }
+
+    async function handleLogout() {
+        const resp = await fetch('/logout', {
+            method: 'DELETE',
+            // headers: {
+            //     'Content-Type': 'application/json'
+            // },
+            // body: JSON.stringify({
+            //     username,
+            //     password,
+            })
+        const msg = await resp.text()
+        if ( msg === 'ok') {
+            alert('Successful logout!')
+        } else {
+            alert('Cannot log out! 😕')
         }
         
     }
@@ -30,7 +49,6 @@ function Login() {
         Password: <input onChange={(e) => setPassword(e.target.value)} value={password} />
         <br />
         <button onClick={handleLogin}>Login</button>
+        <button onClick={handleLogout}>Logout</button>
     </>
 }
-
-export default Login
