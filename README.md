@@ -1,10 +1,10 @@
-# About
+# Step 1. Build the client (no hot-reload yet)
 
 ```sh
-npm install
+npm run build
 ```
 
-## Backend
+# Step 2. Start server
 
 ```sh
 nodemon server.mjs
@@ -12,10 +12,7 @@ nodemon server.mjs
 
 **Note**: starts the backend server on port 5000
 
-## Frontend
+# Step 3. Use frontend
 
-```sh
-npm start
-```
 
-**Note**: starts the frontend web server on port 3000 and proxies requests like `/login` to http://localhost:5000
+Open `lovalhost:5000` in the browser.
