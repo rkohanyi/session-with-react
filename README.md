@@ -14,5 +14,4 @@ nodemon server.mjs
 
 # Step 3. Use frontend
 
-
-Open `lovalhost:5000` in the browser.
+Open `localhost:5000` in the browser.
