@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-var app = express()
+const app = express()
 
 app.use(express.json())
 app.use(session({
@@ -19,13 +19,13 @@ app.use(session({
   // https://github.com/expressjs/session/issues/837
   cookie: { secure: false }
 }))
+
+// HTML, JS, JPG, etc file requests will be served using
+// the build folder. 
 app.use(express.static(path.join(__dirname, "build")));
-console.log(path.join(__dirname, "build"))
 
 // The landing page will be served by the static middleware.
-// app.get('/', (req, res) => { 
-
-// })
+// app.get('/', (req, res) => { })
 
 app.get('/no-need-for-login', (req, res) => {
     res.send('<h1>Everyone can see this</h1>')
@@ -42,8 +42,8 @@ app.get('/login-needed', (req, res) => {
 app.post('/login', (req, res) => {
     const { username, password } = req.body
     if (username === 'joe' && password === 'joe') {
+        // This session change triggers the session creation
         req.session.username = username
-        console.log(req.session)
         res.status(200).send('ok')
     } else {
         res.status(401).send('Wrong username or password')
