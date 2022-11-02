@@ -1,7 +1,10 @@
 import Login from "./components/Login"
+import Nav from "./components/Nav"
+
 
 function App() {
-  return <Login />
+  return <div><Nav /><Login /></div>
+  
 }
 
 export default App;
