@@ -6,11 +6,15 @@ var app = express()
 //app.set('trust proxy', 1) // trust first proxy
 
 app.use(express.json())
+app.use((req, res, next) => {
+    console.log('REQ', req.url);
+    next();
+})
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
+  saveUninitialized: false,
+  cookie: { secure: false }
 }))
 
 app.get('/no-need-for-login', (req, res) => {
@@ -20,8 +24,9 @@ app.get('/no-need-for-login', (req, res) => {
 app.get('/login-needed', (req, res) => {
     if (!req.session.username) {
         res.send(401)
+    } else {
+        res.send(`<h1>Only logged in user (${req.session.username}) can see this</h1>`)
     }
-    res.send(`<h1>Only logged in user (${username}) can see this</h1>`)
 })
 
 app.post('/login', (req, res) => {
