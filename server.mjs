@@ -3,12 +3,12 @@ import session from 'express-session'
 import path from 'path'
 import { fileURLToPath } from 'url';
 
+// In my current node version (14.18.1) __dirname is not yet available.
+// I'll upgrade it soon.
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 var app = express()
-
-//app.set('trust proxy', 1) // trust first proxy
 
 app.use(express.json())
 app.use(session({
@@ -22,9 +22,10 @@ app.use(session({
 app.use(express.static(path.join(__dirname, "build")));
 console.log(path.join(__dirname, "build"))
 
-app.get('/', (req, res) => { 
+// The landing page will be served by the static middleware.
+// app.get('/', (req, res) => { 
 
-})
+// })
 
 app.get('/no-need-for-login', (req, res) => {
     res.send('<h1>Everyone can see this</h1>')
